@@ -137,7 +137,8 @@ class ToonHead(Actor.Actor):
             for partNum in xrange(0, muzzleParts.getNumPaths()):
                 muzzleParts.getPath(partNum).hide()
 
-    def loadHead(self, headStyle):
+    def loadHead(self, models, headStyle):
+        self.models = models
         fix = None
         if headStyle == 'dls':
             filePrefix = HeadDict['dls']

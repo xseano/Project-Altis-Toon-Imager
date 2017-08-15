@@ -64,9 +64,9 @@ class ToonView(ShowBase):
             self.Preloaded[fileRoot] = loader.loadModel('phase_3' + fileRoot + "1000.bam")
 
         for key in HeadDict.keys():
-            fileRoot = HeadDict[key        ]
-        self.Preloaded[fileRoot] = loader.loadModel('phase_3' + fileRoot + '1000.bam')
-        self.Preloaded[fileRoot].flattenMedium()
+            fileRoot = HeadDict[key]
+            self.Preloaded[fileRoot] = loader.loadModel('phase_3' + fileRoot + '1000.bam')
+            self.Preloaded[fileRoot].flattenMedium()
 
         self.loadAnimations()
 

@@ -149,7 +149,7 @@ class ToonActor(ToonHead):
         self.attach('torso', 'legs', 'joint_hips')
 
     def buildHead(self):
-        self.loadHead(self.head)
+        self.loadHead(self.models, self.head)
         if self.getAnimal() == 'dog':
             self.loadAnims(self.HeadAnimDict[self.head], 'head', 'lodRoot')
 
@@ -208,4 +208,3 @@ class ToonActor(ToonHead):
             print(self.type)
             raise Exception("Error parsing net string")
         return None
-
