@@ -1,0 +1,19 @@
+{
+    "Version": "1.0",
+
+    "Server":
+    {
+        "MaxConnections": 1,
+        "Port": 777,
+        "WantDebug": true,
+        "DevEnv": true,
+        "UWS": true,
+        "Tick": 50
+    },
+
+    "Logger":
+    {
+        "Debug": true,
+        "Prompt": ">"
+    }
+}

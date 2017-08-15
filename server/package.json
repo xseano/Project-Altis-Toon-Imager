@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "colors": "*",
+    "columnify": "*",
+    "node-gameloop": "*",
+    "os": "^0.1.1",
+    "uws": "^0.14.5",
+    "ws": "*"
+  }
+}
