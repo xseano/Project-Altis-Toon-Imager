@@ -33,16 +33,10 @@ class PacketHandler
         return payload.replace(/\u0000/g, '');
     }
 
-    /* Tells client to disconnect */
-    sendDisconnect()
+    /* Requests Toon Data */
+    reqToonData(dnaString)
     {
-        this.sendPacket(new PacketWriter(this.packetGlobals.Disconnect, "").toString());
-    }
-
-    /* Initiates the game process */
-    startProcess()
-    {
-        this.sendPacket(new PacketWriter(this.packetGlobals.StartProcess, "").toString());
+        this.sendPacket(new PacketWriter(this.packetGlobals.RequestToonData, dnaString).toString());
     }
 
     /*

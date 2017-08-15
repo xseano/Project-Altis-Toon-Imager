@@ -78,28 +78,6 @@ class BridgeServer
         Logger.info(`CPU: ${os.cpus()[0]["model"]}`);
 
         Logger.info(`Gameloop running at ${Config.Server.Tick} ms/tick`);
-
-        this.app.all('*',
-            function(req, res)
-            {
-                res.header('Access-Control-Allow-Origin', '*');
-                res.header('Access-Control-Allow-Methods', 'POST');
-                res.header('Access-Control-Allow-Headers', 'Content-type');
-
-                switch(req.method)
-                {
-                    case 'POST':
-                        var dnaString = String(req.body.dna);
-
-                        if (dnaString)
-                        {
-                            res.sendStatus(200);
-                            Logger.debug(`Got DNA string: ${dnaString}`);
-                        }
-
-                }
-            }
-        );
     }
 
     onOpen()
@@ -129,12 +107,7 @@ class BridgeServer
 
             this.onClose = () =>
             {
-                sqlConn.end(
-                    function(err)
-                    {
-                        Logger.warn(`Socket connection disconnected!`);
-                    }
-                );
+                Logger.warn(`Socket connection disconnected!`);
             }
 
             socket.on('message', conn.onMessage.bind(conn));

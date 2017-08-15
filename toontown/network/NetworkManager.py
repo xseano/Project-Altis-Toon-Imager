@@ -1,94 +1,81 @@
-import os, sys, time, json, websocket, threading
-from direct.showbase import DirectObject
-from direct.directnotify import DirectNotifyGlobal
-from direct.task import Task
+import websocket
+import thread
+import time
 import NetworkGlobals
 
-class NetworkManager(DirectObject.DirectObject, threading.Thread):
-    notify = DirectNotifyGlobal.directNotify.newCategory('NetworkManager')
+def craft_header(header):
+    return header
 
-    def __init__(self, url, wantTrace, runForever, threadingDaemon):
-        threading.Thread.__init__(self)
-
-        self.url = url
-
-        # WebSocket Stuff
-        websocket.enableTrace(wantTrace)  # We do not want this set to True; it fills up the terminal.
-        self.interface = websocket.WebSocketApp(self.url)
-        self.interface.on_open = self.on_open
-        self.interface.on_message = self.on_message
-        self.interface.on_close = self.on_close
-
-        # WS Thread
-        if runForever == True:
-            self.thread = threading.Thread(target=self.interface.run_forever)
-        self.thread.daemon = threadingDaemon
-
-        # Main Thread
-        self.start()
-        self.connect()
-
-    def craft_header(self, header):
-        return header
-
-    def craft_payload(self, payload):
-        i = len(payload)
-        newPayload = payload
-        while i < 250:
-            if i >= len(payload):
-                payload += "\x00"
-            else:
-                if payload[i] is not "\x00":
-                    newPayload += "\x00"
-            i += 1
-        return payload
-
-    def send_data(self, header, payload):
-        print payload
-        self.interface.send(self.craft_header(header) + self.craft_payload(str(payload)))
-
-    def get_header(self, data):
-        header = ""
-        for x in range(0, 6):
-            header += data[x]
-        return header
-
-    def print_packet(self, packet):
-        print ('Header: %s' % (self.get_header(packet)))
-        print ('Payload: %s' % (self.get_payload(packet)))
-
-    def get_payload(self, data):
-        # Read the next 250 bytes after the header, because the max header is 6 bytes and the max payload is 250 bytes
-        payload = ""
-        for x in range(6, 250 + 6):
-            if ord(data[x]) is not 0:  # Comparing the ascii code of the data to ascii nul
-                payload += str(data[x])
-        return payload
-
-    def on_message(self, ws, data):
-        self.print_packet(data)
-        header = self.get_header(data)
-        payload = self.get_payload(data)
-        self.handle_packet(header, payload)
-
-    def on_error(self, ws, error):
-        print error
-
-    def on_close(self, ws):
-        self.notify.warning("Disconnected from the server!")
-        sys.exit(0)
-
-    def on_open(self, ws):
-        self.notify.warning("Connection Opened")
-
-    def connect(self):
-        self.notify.warning('Attempting Connection...')
-        self.notify.warning("Running forever")
-        self.thread.start()
-
-    def handle_packet(self, header, payload):
-        if header == NetworkGlobals.RequestToonData:
-            print "The server is requesting toon data..."
-            print json.loads(payload)
+def craft_payload(payload):
+    i = len(payload)
+    newPayload = payload
+    while i < 250:
+        if i >= len(payload):
+            payload += "\x00"
         else:
-            print "The server provided invalid or unknown header!"
+            if payload[i] is not "\x00":
+                newPayload += "\x00"
+        i += 1
+    return payload
+
+def send_data(header, payload):
+    print payload
+    interface.send(craft_header(header) + craft_payload(str(payload)))
+
+def get_header(data):
+    header = ""
+    for x in range(0, 6):
+        header += data[x]
+    return header
+
+def print_packet(packet):
+    print ('Header: %s' % (get_header(packet)))
+    print ('Payload: %s' % (get_payload(packet)))
+
+def get_payload(data):
+    # Read the next 250 bytes after the header, because the max header is 6 bytes and the max payload is 250 bytes
+    payload = ""
+    for x in range(6, 250 + 6):
+        if ord(data[x]) is not 0:  # Comparing the ascii code of the data to ascii nul
+            payload += str(data[x])
+    return payload
+
+def on_message(ws, data):
+    print_packet(data)
+    header = get_header(data)
+    payload = get_payload(data)
+    handle_packet(header, payload)
+
+def on_error(ws, error):
+    print error
+
+def on_close(ws):
+    print ("Disconnected from the server!")
+    sys.exit(0)
+
+def on_open(ws):
+    print ("Connection Opened")
+
+def startConnection(self):
+    print ('Attempting Connection...')
+    print ("Running forever")
+    thread.start()
+
+def handle_packet(header, payload):
+    if header == NetworkGlobals.RequestToonData:
+        print "The server is requesting toon data..."
+        #print json.loads(payload)
+    else:
+        print "The server provided invalid or unknown header!"
+
+if __name__ == "__main__":
+    # websocket.enableTrace(True)
+    ws = websocket.WebSocketApp("ws://127.0.0.1:777",
+                                on_message = on_message,
+                                on_error = on_error,
+                                on_close = on_close)
+    ws.on_open = on_open
+
+    websocket.enableTrace(True)
+
+    ws.run_forever()
