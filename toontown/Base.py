@@ -95,8 +95,3 @@ class ToonView(ShowBase):
             self.toon.disable()
 
         self.destroy()
-
-TestView = ToonView()
-TestView.loadModels()
-TestView.displayDNA("t\x01\x01\x01\x01\x56\x03\x4b\x03\x24\x1d\x14\x00\x14\x14")
-TestView.run()

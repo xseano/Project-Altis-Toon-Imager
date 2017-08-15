@@ -2,6 +2,7 @@ import websocket
 import thread
 import time
 import NetworkGlobals
+from toontown.Base import ToonView
 
 def craft_header(header):
     return header
@@ -65,6 +66,11 @@ def handle_packet(header, payload):
     if header == NetworkGlobals.RequestToonData:
         print "The server is requesting toon data..."
         #print json.loads(payload)
+        TestView = ToonView()
+        TestView.loadModels()
+        TestView.displayDNA(payload)
+        TestView.run()
+
     else:
         print "The server provided invalid or unknown header!"
 
