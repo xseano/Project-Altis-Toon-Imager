@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "body-parser": "^1.17.2",
     "colors": "*",
     "columnify": "*",
+    "express": "^4.15.4",
+    "http": "0.0.0",
     "node-gameloop": "*",
     "os": "^0.1.1",
     "uws": "^0.14.5",

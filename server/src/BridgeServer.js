@@ -21,6 +21,14 @@ class BridgeServer
 
     constructor()
     {
+        // Server Stuff
+        this.express = require('express');
+        this.http = require('http');
+        this.url = require('url');
+        this.app = this.express();
+        this.server = this.http.createServer(this.app);
+        this.bp = require('body-parser');
+
         // Game Variables
         this.id = 0;
         this.clients = [];
@@ -44,10 +52,20 @@ class BridgeServer
     */
     start()
     {
+        var server = this.server;
+
         // perMessageDeflate lags server and is enabled by default, HAS TO BE DISABLED
-        var wss = this.wss = new WebSocket.Server({port: Config.Server.Port, perMessageDeflate: false}, this.onOpen.bind(this));
+        var wss = this.wss = new WebSocket.Server({ server }, this.onOpen.bind(this));
 
         wss.on('connection', this.onConnect.bind(this));
+
+        this.app.use(this.bp.json())
+
+        this.server.listen(Config.Server.Port, () =>
+            {
+                Logger.info(`Server started on port: ${this.server.address().port}`);
+            }
+        );
 
         // Logger
         Logger.prompt(this.commands.handleCommand.bind(this.commands), Config.Logger.Prompt);
@@ -60,6 +78,28 @@ class BridgeServer
         Logger.info(`CPU: ${os.cpus()[0]["model"]}`);
 
         Logger.info(`Gameloop running at ${Config.Server.Tick} ms/tick`);
+
+        this.app.all('*',
+            function(req, res)
+            {
+                res.header('Access-Control-Allow-Origin', '*');
+                res.header('Access-Control-Allow-Methods', 'POST');
+                res.header('Access-Control-Allow-Headers', 'Content-type');
+
+                switch(req.method)
+                {
+                    case 'POST':
+                        var dnaString = String(req.body.dna);
+
+                        if (dnaString)
+                        {
+                            res.sendStatus(200);
+                            Logger.debug(`Got DNA string: ${dnaString}`);
+                        }
+
+                }
+            }
+        );
     }
 
     onOpen()
