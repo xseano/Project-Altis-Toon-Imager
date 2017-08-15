@@ -2,7 +2,7 @@ import os, sys, time, json, websocket, threading
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
-from network import NetworkGlobals
+import NetworkGlobals
 
 class NetworkManager(DirectObject.DirectObject, threading.Thread):
     notify = DirectNotifyGlobal.directNotify.newCategory('NetworkManager')
