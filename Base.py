@@ -54,7 +54,7 @@ class ToonView(ShowBase):
                         self.HeadAnimDict[key][anim[0]] = file
 
     def loadModels(self):
-        getModelPath().appendDirectory('/c/Users/Ollie/Documents/ALTISWORK/ToonImager/resources/')
+        getModelPath().appendDirectory(('%s/resources/' % (os.getcwd())))
         for key in TorsoDict.keys():
             fileRoot = TorsoDict[key]
             self.Preloaded[fileRoot] = loader.loadModel('phase_3' + fileRoot + "1000.bam")
@@ -70,24 +70,23 @@ class ToonView(ShowBase):
 
         self.loadAnimations()
 
-        def takeScreenshot(self, task):
-            file_name = Filename(str(uuid.uuid4()) + ".png")
-            self.win.saveScreenshot(file_name)
-            self.toon.removeNode()
+    def takeScreenshot(self, task):
+        file_name = Filename(str(uuid.uuid4()) + ".png")
+        self.win.saveScreenshot(file_name)
+        self.toon.removeNode()
 
-        def displayDNA(self, dna):
-            self.toon = ToonActor(self.Preloaded, self.LegsAnimDict, self.TorsoAnimDict, self.HeadAnimDict)
-            self.toon.loadDNA(dna)
-            self.toon.buildToon()
-            self.toon.reparentTo(self.render)
-            self.toon.setPos(-0.3, 6.9, -0.6)
-            self.toon.setHpr(-180, 0, 0)
-            self.camera.setPos(-0.3, -4.8, 1.8)
+    def displayDNA(self, dna):
+        self.toon = ToonActor(self.Preloaded, self.LegsAnimDict, self.TorsoAnimDict, self.HeadAnimDict)
+        self.toon.loadDNA(dna)
+        self.toon.buildToon()
+        self.toon.reparentTo(self.render)
+        self.toon.setPos(-0.3, 6.9, -0.6)
+        self.toon.setHpr(-180, 0, 0)
+        self.camera.setPos(-0.3, -4.8, 1.8)
 
-        def fixCam(Task):
-            self.camera.setPos(-0.3, -4.8, 1.8)
-            return Task.cont
-
+    def fixCam(Task):
+        self.camera.setPos(-0.3, -4.8, 1.8)
+        return Task.cont
         taskMgr.add(fixCam, 'cam')
         taskMgr.doMethodLater(0.1, self.takeScreenshot, 'screenshotTask')
 
