@@ -7,25 +7,26 @@ import NetworkGlobals
 class NetworkManager(DirectObject.DirectObject, threading.Thread):
     notify = DirectNotifyGlobal.directNotify.newCategory('NetworkManager')
 
-    def __init__(self, url):
+    def __init__(self, url, wantTrace, runForever, threadingDaemon):
         threading.Thread.__init__(self)
 
         self.url = url
-        self.lastHeartbeat = 0
 
         # WebSocket Stuff
-        websocket.enableTrace(False)  # We do not want this set to True; it fills up the terminal.
+        websocket.enableTrace(wantTrace)  # We do not want this set to True; it fills up the terminal.
         self.interface = websocket.WebSocketApp(self.url)
         self.interface.on_open = self.on_open
         self.interface.on_message = self.on_message
         self.interface.on_close = self.on_close
 
         # WS Thread
-        self.thread = threading.Thread(target=self.interface.run_forever)
-        self.thread.daemon = True
+        if runForever == True:
+            self.thread = threading.Thread(target=self.interface.run_forever)
+        self.thread.daemon = threadingDaemon
 
         # Main Thread
         self.start()
+        self.connect()
 
     def craft_header(self, header):
         return header
@@ -80,9 +81,7 @@ class NetworkManager(DirectObject.DirectObject, threading.Thread):
     def on_open(self, ws):
         self.notify.warning("Connection Opened")
 
-    def connectToLogin(self, serverList, successCallback=None, successArgs=[], failureCallback=None, failureArgs=[]):
-        self.successCallback, self.successArgs = successCallback, successArgs
-        self.failureCallback, self.failureArgs = failureCallback, failureArgs
+    def connect(self):
         self.notify.warning('Attempting Connection...')
         self.notify.warning("Running forever")
         self.thread.start()
