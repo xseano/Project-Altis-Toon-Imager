@@ -7,7 +7,8 @@ import ast
 from direct.stdpy import threading
 from multiprocessing import Process
 from Base import ToonView
-import thread
+
+Toon = ToonView()
 
 def craft_header(header):
     return header
@@ -65,7 +66,6 @@ def on_open(ws):
 def startConnection(self):
     print ('Attempting Connection...')
     print ("Running forever")
-    thread.start()
 
 def handle_packet(header, payload):
     if header == NetworkGlobals.RequestToonData:
