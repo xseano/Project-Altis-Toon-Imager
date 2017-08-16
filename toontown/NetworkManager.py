@@ -3,6 +3,7 @@ import thread
 import time
 import sys
 import NetworkGlobals
+import ast
 from Base import ToonView
 
 def craft_header(header):
@@ -66,11 +67,18 @@ def startConnection(self):
 def handle_packet(header, payload):
     if header == NetworkGlobals.RequestToonData:
         print "The server is requesting toon data..."
-        dnaString = payload
+
+        str = payload[1:]
+        dnaString = "t"
+        for x in str.split("\\x"):
+            if x != '':
+                dnaString += chr(int(x, 16))
+
         Toon = ToonView()
         Toon.loadModels()
         Toon.displayDNA(dnaString)
         Toon.run()
+
 
 
     else:

@@ -49,8 +49,8 @@ class PacketHandler
             if (this.bridgeServer.wantDebug === true)
             {
                 var pac = new PacketReader(packet);
-                //Logger.debug(`Sending back: ${pac.header}`)
-                //Logger.debug(`Payload: ${pac.payload}`)
+                Logger.debug(`Sending back: ${pac.header}`)
+                Logger.debug(`Payload: ${pac.payload}`)
             }
             this.socket.send(packet);
         }
