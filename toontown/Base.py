@@ -7,7 +7,7 @@ import base64
 import uuid
 
 class ToonView(ShowBase):
-    def __init__(self):
+    def __init__(self, dna):
         ShowBase.__init__(self)
         self.Preloaded = {}
         self.LegsAnimDict = {}
@@ -15,6 +15,7 @@ class ToonView(ShowBase):
         self.HeadAnimDict = {}
 
         self.loadModels()
+        self.displayDNA(dna)
 
     def loadAnimations(self):
         phaseList = [Phase3AnimList,
@@ -71,6 +72,8 @@ class ToonView(ShowBase):
             self.Preloaded[fileRoot] = loader.loadModel('phase_3' + fileRoot + '1000.bam')
             self.Preloaded[fileRoot].flattenMedium()
 
+        self.loadAnimations()
+
     def takeScreenshot(self, task):
         file_name = Filename(str(uuid.uuid4()) + ".png")
         self.win.saveScreenshot(file_name)
@@ -78,19 +81,19 @@ class ToonView(ShowBase):
         os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
         #print b64String
         self.toon.removeNode()
+        self.cleanup()
 
     def displayDNA(self, dna):
         self.toon = ToonActor(self.Preloaded, self.LegsAnimDict, self.TorsoAnimDict, self.HeadAnimDict)
-        print 1
         self.toon.loadDNA(dna)
-        print 2
         self.toon.buildToon()
-        print 3
         self.toon.reparentTo(self.render)
-        print 4
         self.toon.setPos(0, 9, -2.1)
-        print 5
         self.toon.setHpr(-180, 0, 0)
-        print 6
         taskMgr.doMethodLater(0.1, self.takeScreenshot, 'screenshotTask')
-        print 7
+
+    def cleanup(self):
+        if self.toon:
+            self.toon.disable()
+
+        self.destroy()
