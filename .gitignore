@@ -1,5 +1,8 @@
 # Python Binaries:
 *.pyc
 
+# Image Exports
+*.png
+
 # Resources:
 resources/

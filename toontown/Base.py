@@ -72,23 +72,17 @@ class ToonView(ShowBase):
 
     def takeScreenshot(self, task):
         file_name = Filename(str(uuid.uuid4()) + ".png")
+        print ('file: %s' % (file_name))
         self.win.saveScreenshot(file_name)
         self.toon.removeNode()
 
     def displayDNA(self, dna):
         self.toon = ToonActor(self.Preloaded, self.LegsAnimDict, self.TorsoAnimDict, self.HeadAnimDict)
-        print ('dna: %s' % (dna))
         self.toon.loadDNA(dna)
         self.toon.buildToon()
         self.toon.reparentTo(self.render)
-        self.toon.setPos(-0.3, 6.9, -0.6)
+        self.toon.setPos(0, 9, -2.1)
         self.toon.setHpr(-180, 0, 0)
-        self.camera.setPos(-0.3, -4.8, 1.8)
-
-    def fixCam(Task):
-        self.camera.setPos(-0.3, -4.8, 1.8)
-        return Task.cont
-        taskMgr.add(fixCam, 'cam')
         taskMgr.doMethodLater(0.1, self.takeScreenshot, 'screenshotTask')
 
     def cleanup(self):
