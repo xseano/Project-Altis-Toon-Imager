@@ -4,7 +4,8 @@ import time
 import sys
 import NetworkGlobals
 import ast
-import threading
+from direct.stdpy import threading
+from multiprocessing import Process
 from Base import ToonView
 import thread
 
@@ -76,10 +77,8 @@ def handle_packet(header, payload):
             if x != '':
                 dnaString += chr(int(x, 16))
 
-        Toon = ToonView(dnaString)
-        thread = threading.Thread(target=Toon.run())
-        thread.start()
-        thread.terminate()
+        p = Process(target=ToonView, args=(dnaString,))
+        p.start()
 
 
 
