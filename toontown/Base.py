@@ -77,6 +77,7 @@ class ToonView(ShowBase):
 
     def displayDNA(self, dna):
         self.toon = ToonActor(self.Preloaded, self.LegsAnimDict, self.TorsoAnimDict, self.HeadAnimDict)
+        print ('dna: %s' % (dna))
         self.toon.loadDNA(dna)
         self.toon.buildToon()
         self.toon.reparentTo(self.render)

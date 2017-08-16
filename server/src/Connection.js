@@ -23,29 +23,12 @@ class Connection
     */
     onOpen()
     {
-        var self = this;
-        this.bridgeServer.app.all('*',
-            function(req, res)
-            {
-                res.header('Access-Control-Allow-Origin', '*');
-                res.header('Access-Control-Allow-Methods', 'POST');
-                res.header('Access-Control-Allow-Headers', 'Content-type');
+        Logger.debug(`New connection open from address: ${this.ip}`);
+    }
 
-                switch(req.method)
-                {
-                    case 'POST':
-                        var dnaString = String(req.body.dna);
-
-                        if (dnaString)
-                        {
-                            res.sendStatus(200);
-                            Logger.debug(`Got DNA string: ${dnaString}`);
-                            self.packetHandler.reqToonData(dnaString);
-                        }
-
-                }
-            }
-        );
+    handleDNA(dna)
+    {
+        this.packetHandler.reqToonData(dna);
     }
 
     /*
