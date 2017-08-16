@@ -7,12 +7,15 @@ import base64
 import uuid
 
 class ToonView(ShowBase):
-    def __init__(self):
+    def __init__(self, dna):
         ShowBase.__init__(self)
         self.Preloaded = {}
         self.LegsAnimDict = {}
         self.TorsoAnimDict = {}
         self.HeadAnimDict = {}
+
+        self.loadModels()
+        self.displayDNA(dna)
 
     def loadAnimations(self):
         phaseList = [Phase3AnimList,

@@ -4,7 +4,9 @@ import time
 import sys
 import NetworkGlobals
 import ast
+import threading
 from Base import ToonView
+import thread
 
 def craft_header(header):
     return header
@@ -74,11 +76,10 @@ def handle_packet(header, payload):
             if x != '':
                 dnaString += chr(int(x, 16))
 
-        Toon = ToonView()
-        Toon.loadModels()
-        Toon.displayDNA(dnaString)
-        Toon.run()
-        Toon.kill()
+        Toon = ToonView(dnaString)
+        thread = threading.Thread(target=Toon.run())
+        thread.start()
+        thread.terminate()
 
 
 
