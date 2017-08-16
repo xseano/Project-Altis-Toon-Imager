@@ -107,8 +107,20 @@ class BridgeServer
 
             this.onClose = () =>
             {
-                Logger.warn(`Socket connection disconnected!`);
-                socket.close();
+                if (this.clients.indexOf(conn) > -1)
+                {
+                    this.clients.splice(this.clients.indexOf(conn), 1);
+                    socket.close();
+                }
+
+                if (conn.packetHandler.unm)
+                {
+                    Logger.warn(`${conn.packetHandler.unm} has successfully been disconnected!`);
+                }
+                else
+                {
+                    Logger.warn(`Socket connection with id: ${id} has successfully been disconnected!`);
+                }
             }
 
             socket.on('message', conn.onMessage.bind(conn));
@@ -118,25 +130,9 @@ class BridgeServer
             conn.onOpen();
             this.clients.push(conn);
 
-            this.app.all('*',
-                function(req, res)
+            this.app.all('*', (req, res) =>
                 {
-                    res.header('Access-Control-Allow-Origin', '*');
-                    res.header('Access-Control-Allow-Methods', 'POST');
-                    res.header('Access-Control-Allow-Headers', 'Content-type');
-
-                    switch(req.method)
-                    {
-                        case 'POST':
-                            var dnaString = String(req.body.dna);
-
-                            if (dnaString)
-                            {
-                                conn.handleDNA(dnaString);
-                                res.sendStatus(200);
-                                Logger.debug(`Got DNA string: ${dnaString}`);
-                            }
-                    }
+                    conn.onRequest(req, res);
                 }
             );
         }

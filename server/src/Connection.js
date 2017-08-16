@@ -31,6 +31,25 @@ class Connection
         this.packetHandler.reqToonData(dna);
     }
 
+    onRequest(req, res)
+    {
+        switch(req.method)
+        {
+            case 'POST':
+                var dnaString = String(req.body.dna);
+
+                if (dnaString)
+                {
+                    this.handleDNA(dnaString, () =>
+                        {
+                            res.sendStatus(200);
+                            Logger.debug(`Got DNA string: ${dnaString}`);
+                        }
+                    );
+                }
+        }
+    }
+
     /*
     Event fired when a client sends data. The data
     received handled and the proper response

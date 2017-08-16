@@ -78,6 +78,7 @@ def handle_packet(header, payload):
         Toon.loadModels()
         Toon.displayDNA(dnaString)
         Toon.run()
+        Toon.kill()
 
 
 

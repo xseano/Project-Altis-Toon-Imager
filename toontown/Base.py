@@ -75,6 +75,7 @@ class ToonView(ShowBase):
         print ('file: %s' % (file_name))
         self.win.saveScreenshot(file_name)
         self.toon.removeNode()
+        self.cleanup()
 
     def displayDNA(self, dna):
         self.toon = ToonActor(self.Preloaded, self.LegsAnimDict, self.TorsoAnimDict, self.HeadAnimDict)
