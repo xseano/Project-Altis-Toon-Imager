@@ -3,6 +3,7 @@ from ToonActor import ToonActor
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
 import os
+import base64
 import uuid
 
 class ToonView(ShowBase):
@@ -72,8 +73,10 @@ class ToonView(ShowBase):
 
     def takeScreenshot(self, task):
         file_name = Filename(str(uuid.uuid4()) + ".png")
-        print ('file: %s' % (file_name))
         self.win.saveScreenshot(file_name)
+        b64String = base64.b64encode(open(str(file_name), "rb").read())
+        os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
+        print b64String
         self.toon.removeNode()
         self.cleanup()
 

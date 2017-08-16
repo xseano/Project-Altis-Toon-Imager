@@ -40,12 +40,9 @@ class Connection
 
                 if (dnaString)
                 {
-                    this.handleDNA(dnaString, () =>
-                        {
-                            res.sendStatus(200);
-                            Logger.debug(`Got DNA string: ${dnaString}`);
-                        }
-                    );
+                    this.handleDNA(dnaString);
+                    res.sendStatus(200);
+                    Logger.debug(`Got DNA string: ${dnaString}`);
                 }
         }
     }
