@@ -6,7 +6,8 @@ import NetworkGlobals
 import ast
 import threading
 from Base import ToonView
-import thread
+
+Toon = ToonView()
 
 def craft_header(header):
     return header
@@ -64,7 +65,6 @@ def on_open(ws):
 def startConnection(self):
     print ('Attempting Connection...')
     print ("Running forever")
-    thread.start()
 
 def handle_packet(header, payload):
     if header == NetworkGlobals.RequestToonData:
@@ -76,12 +76,8 @@ def handle_packet(header, payload):
             if x != '':
                 dnaString += chr(int(x, 16))
 
-        Toon = ToonView(dnaString)
-        thread = threading.Thread(target=Toon.run())
-        thread.start()
-        thread.terminate()
-
-
+        Toon.loadAnimations()
+        Toon.displayDNA(dnaString)
 
     else:
         print "The server provided invalid or unknown header!"
