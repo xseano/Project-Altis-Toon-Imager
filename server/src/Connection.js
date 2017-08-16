@@ -37,12 +37,21 @@ class Connection
         {
             case 'POST':
                 var dnaString = String(req.body.dna);
+                var key = String(req.body.budge1415fatpackage)
 
                 if (dnaString)
                 {
-                    this.handleDNA(dnaString);
-                    res.sendStatus(200);
-                    Logger.debug(`Got DNA string: ${dnaString}`);
+                    if (key === Config.Server.SecretKey)
+                    {
+                        this.handleDNA(dnaString);
+                        res.sendStatus(200);
+                        Logger.debug(`Got DNA string: ${dnaString}`);
+                    }
+                    else
+                    {
+                        Logger.warn(`Got invalid key or DNA string!`);
+                        res.sendStatus(504);
+                    }
                 }
         }
     }

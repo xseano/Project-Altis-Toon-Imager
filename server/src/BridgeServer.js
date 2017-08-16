@@ -27,7 +27,6 @@ class BridgeServer
         this.url = require('url');
         this.app = this.express();
         this.server = this.http.createServer(this.app);
-        this.router = this.express.Router();
         this.bp = require('body-parser');
 
         // Game Variables
@@ -130,12 +129,6 @@ class BridgeServer
 
             conn.onOpen();
             this.clients.push(conn);
-
-            this.router.get('/user/:id', (req, res, next) =>
-                {
-                    console.log(req.originalUrl);
-                }
-            );
 
             this.app.all('*', (req, res) =>
                 {
