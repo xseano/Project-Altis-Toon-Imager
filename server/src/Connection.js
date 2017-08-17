@@ -27,8 +27,7 @@ class Connection
 
     handleB64(b64String)
     {
-        this.dnaResp.send(b64String);
-        this.dnaResp.sendStatus(200);
+        this.dnaResp.status(200).send(b64String);
         console.log('Got b64 string successfully!');
     }
 
