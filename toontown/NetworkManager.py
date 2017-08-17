@@ -1,6 +1,5 @@
 import websocket, time, sys
 import NetworkGlobals
-from multiprocessing import Process
 from Base import ToonView
 
 def craft_header(header):
@@ -66,12 +65,8 @@ def handle_packet(header, payload):
             if x != '':
                 dnaString += chr(int(x, 16))
 
-        #Toon = ToonView(dnaString)
-        #Toon.run()
-
-        p = Process(target=ToonView, args=(dnaString,))
-        p.start()
-
+        Toon = ToonView(dnaString)
+        Toon.run()
 
     else:
         print "The server provided invalid or unknown header!"

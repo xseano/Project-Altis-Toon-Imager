@@ -2,10 +2,11 @@ from Data import *
 from ToonActor import ToonActor
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
-import os, sys, base64, uuid
+import os, sys, base64, uuid, signal
 
 class ToonView(ShowBase):
     def __init__(self, dna):
+        loadPrcFileData('', "aux-display pandagl")
         ShowBase.__init__(self)
         self.Preloaded = {}
         self.LegsAnimDict = {}
@@ -19,21 +20,11 @@ class ToonView(ShowBase):
         phaseList = [Phase3AnimList,
                      Phase3_5AnimList,
                      Phase4AnimList,
-                     Phase5AnimList,
-                     Phase5_5AnimList,
-                     Phase6AnimList,
-                     Phase9AnimList,
-                     Phase10AnimList,
-                     Phase12AnimList]
+                     Phase5AnimList]
         phaseStrList = ['phase_3',
                         'phase_3.5',
                         'phase_4',
-                        'phase_5',
-                        'phase_5.5',
-                        'phase_6',
-                        'phase_9',
-                        'phase_10',
-                        'phase_12']
+                        'phase_5']
         for animList in phaseList:
             phaseStr = phaseStrList[phaseList.index(animList)]
             for key in LegDict.keys():
@@ -90,7 +81,9 @@ class ToonView(ShowBase):
 
     def cleanup(self, file_name):
         if file_name:
-            os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
+            #os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
             if self.toon:
                 self.toon.removeNode()
             self.destroy()
+            pid = os.getpid()
+            os.kill(pid, signal.SIGINT)
