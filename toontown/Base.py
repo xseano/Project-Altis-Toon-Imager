@@ -2,9 +2,7 @@ from Data import *
 from ToonActor import ToonActor
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
-import os, sys
-import base64
-import uuid
+import os, sys, base64, uuid
 
 class ToonView(ShowBase):
     def __init__(self, dna):

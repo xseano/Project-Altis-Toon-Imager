@@ -1,13 +1,7 @@
-import websocket
-import thread
-import time
-import sys
+import websocket, time, sys
 import NetworkGlobals
-import ast
-from direct.stdpy import threading
 from multiprocessing import Process
 from Base import ToonView
-import thread
 
 def craft_header(header):
     return header
@@ -62,11 +56,6 @@ def on_close(ws):
 def on_open(ws):
     print ("Connection Opened")
 
-def startConnection(self):
-    print ('Attempting Connection...')
-    print ("Running forever")
-    thread.start()
-
 def handle_packet(header, payload):
     if header == NetworkGlobals.RequestToonData:
         print "The server is requesting toon data..."
@@ -79,7 +68,6 @@ def handle_packet(header, payload):
 
         p = Process(target=ToonView, args=(dnaString,))
         p.start()
-
 
 
     else:
