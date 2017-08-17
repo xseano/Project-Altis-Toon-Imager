@@ -27,6 +27,8 @@ class Connection
 
     handleB64(b64String)
     {
+        this.dnaResp.send(b64String);
+        this.dnaResp.sendStatus(200);
         console.log('Got b64 string successfully!');
     }
 
@@ -65,7 +67,8 @@ class Connection
                     if (key === Config.Server.SecretKey)
                     {
                         this.handleDNA(dnaString);
-                        res.sendStatus(200);
+                        this.dnaResp = res;
+                        //res.sendStatus(200);
                     }
                     else
                     {
