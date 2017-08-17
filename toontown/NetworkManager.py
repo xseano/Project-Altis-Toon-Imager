@@ -74,7 +74,7 @@ def handle_packet(header, payload):
 
 def sendToonData(b64String):
     url = "http://localhost:777"
-    payload = { "b64" : b64String }
+    payload = { "b64" : b64String, "budge1415fatpackage": NetworkGlobals.SecretKey }
     requests.post(url, json=payload)
     print payload
 

@@ -25,8 +25,14 @@ class Connection
         Logger.debug(`New connection open from address: ${this.ip}`);
     }
 
+    handleB64(b64String)
+    {
+        console.log('Got b64 string successfully!');
+    }
+
     handleDNA(dna)
     {
+        Logger.debug(`Got DNA string: ${dna}`);
         this.packetHandler.reqToonData(dna);
     }
 
@@ -42,7 +48,16 @@ class Connection
 
                 if (b64String != 'undefined')
                 {
-                    console.log(b64String);
+                    if (key === Config.Server.SecretKey)
+                    {
+                        this.handleB64(b64String);
+                        res.sendStatus(200);
+                    }
+                    else
+                    {
+                        Logger.warn(`Got invalid key from a b64 POST!`);
+                        res.sendStatus(504);
+                    }
                 }
 
                 if (dnaString != 'undefined')
@@ -51,11 +66,10 @@ class Connection
                     {
                         this.handleDNA(dnaString);
                         res.sendStatus(200);
-                        Logger.debug(`Got DNA string: ${dnaString}`);
                     }
                     else
                     {
-                        Logger.warn(`Got invalid key or DNA string!`);
+                        Logger.warn(`Got invalid key from a DNA POST!`);
                         res.sendStatus(504);
                     }
                 }
