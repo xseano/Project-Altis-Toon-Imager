@@ -19,7 +19,6 @@ class Connection
 
     /*
     Event fired when a client connects to the server.
-    Connects to the MySQL server, and sends the client their PID.
     */
     onOpen()
     {
@@ -37,20 +36,22 @@ class Connection
         {
             case 'POST':
 
-                console.log(req.body.b64)
+                var dnaString = String(req.body.dna);
+                var key = String(req.body.budge1415fatpackage);
+                var b64String = String(req.body.b64);
 
-                if (String(req.body.b64) != undefined)
+                if (b64String != 'undefined')
                 {
-                    console.log(req.body.b64);
+                    console.log(b64String);
                 }
 
-                if (String(req.body.dna) != undefined)
+                if (dnaString != 'undefined')
                 {
-                    if (req.body.budge1415fatpackage === Config.Server.SecretKey)
+                    if (key === Config.Server.SecretKey)
                     {
-                        this.handleDNA(req.body.dna);
+                        this.handleDNA(dnaString);
                         res.sendStatus(200);
-                        Logger.debug(`Got DNA string: ${req.body.dna}`);
+                        Logger.debug(`Got DNA string: ${dnaString}`);
                     }
                     else
                     {

@@ -76,9 +76,6 @@ class BridgeServer
             )
         );
 
-        //app.use(bodyParser.json({limit: '50mb'}));
-        //app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-
         this.server.listen(Config.Server.Port, () =>
             {
                 Logger.info(`Server started on port: ${this.server.address().port}`);
