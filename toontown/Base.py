@@ -76,10 +76,8 @@ class ToonView(ShowBase):
         file_name = Filename(str(uuid.uuid4()) + ".png")
         self.win.saveScreenshot(file_name)
         b64String = base64.b64encode(open(str(file_name), "rb").read())
-        os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
-        #print b64String
-        self.toon.removeNode()
-        self.cleanup()
+        print b64String
+        self.cleanup(file_name)
 
     def displayDNA(self, dna):
         self.toon = ToonActor(self.Preloaded, self.LegsAnimDict, self.TorsoAnimDict, self.HeadAnimDict)
@@ -90,8 +88,9 @@ class ToonView(ShowBase):
         self.toon.setHpr(-180, 0, 0)
         taskMgr.doMethodLater(0.1, self.takeScreenshot, 'screenshotTask')
 
-    def cleanup(self):
-        if self.toon:
-            self.toon.disable()
-
-        self.destroy()
+    def cleanup(self, file_name):
+        if file_name:
+            os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
+            if self.toon:
+                self.toon.removeNode()
+            self.destroy()

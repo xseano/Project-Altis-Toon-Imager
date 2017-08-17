@@ -66,6 +66,9 @@ def handle_packet(header, payload):
             if x != '':
                 dnaString += chr(int(x, 16))
 
+        #Toon = ToonView(dnaString)
+        #Toon.run()
+
         p = Process(target=ToonView, args=(dnaString,))
         p.start()
 
