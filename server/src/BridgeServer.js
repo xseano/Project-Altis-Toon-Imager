@@ -59,7 +59,25 @@ class BridgeServer
 
         wss.on('connection', this.onConnect.bind(this));
 
-        this.app.use(this.bp.json())
+        this.app.use(
+            this.bp.json(
+                {
+                    limit: '50mb'
+                }
+            )
+        );
+
+        this.app.use(
+            this.bp.urlencoded(
+                {
+                    limit: '50mb',
+                    extended: true
+                }
+            )
+        );
+
+        //app.use(bodyParser.json({limit: '50mb'}));
+        //app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
         this.server.listen(Config.Server.Port, () =>
             {

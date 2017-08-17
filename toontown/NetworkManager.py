@@ -1,4 +1,4 @@
-import websocket, time, sys
+import websocket, time, sys, requests, json
 import NetworkGlobals
 from Base import ToonView
 
@@ -19,7 +19,7 @@ def craft_payload(payload):
 
 def send_data(header, payload):
     print payload
-    interface.send(craft_header(header) + craft_payload(str(payload)))
+    ws.send(craft_header(header) + craft_payload(str(payload)))
 
 def get_header(data):
     header = ""
@@ -67,9 +67,16 @@ def handle_packet(header, payload):
 
         Toon = ToonView(dnaString)
         Toon.run()
-
+        if Toon.b64String:
+            sendToonData(Toon.b64String)
     else:
         print "The server provided invalid or unknown header!"
+
+def sendToonData(b64String):
+    url = "http://localhost:777"
+    payload = { "b64" : b64String }
+    requests.post(url, json=payload)
+    print payload
 
 if __name__ == "__main__":
     ws = websocket.WebSocketApp("ws://127.0.0.1:777",

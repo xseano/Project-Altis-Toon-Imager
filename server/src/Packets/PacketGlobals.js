@@ -9,6 +9,7 @@ class PacketGlobals
     constructor()
     {
         this.RequestToonData = "100001";
+        this.RecieveToonData = "100002";
     }
 }
 

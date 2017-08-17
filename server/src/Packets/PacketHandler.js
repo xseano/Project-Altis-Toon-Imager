@@ -22,6 +22,16 @@ class PacketHandler
             TTLogger.debugPacket(this.unm, packet.header, packet.payload);
         }
 
+        if (packet.header === this.packetGlobals.RecieveToonData)
+        {
+            var payload = this.cleanPayload(packet.payload)
+            var b64String = payload;
+
+            console.log(JSON.parse(payload))
+
+            //Logger.debug(`Got b64 string: ${tpeb64String}`)
+        }
+
     }
 
     /*

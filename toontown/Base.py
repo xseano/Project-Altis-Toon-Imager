@@ -13,6 +13,7 @@ class ToonView(ShowBase):
         self.TorsoAnimDict = {}
         self.HeadAnimDict = {}
 
+        self.b64String = ""
         self.loadModels()
         self.displayDNA(dna)
 
@@ -67,7 +68,7 @@ class ToonView(ShowBase):
         file_name = Filename(str(uuid.uuid4()) + ".png")
         self.win.saveScreenshot(file_name)
         b64String = base64.b64encode(open(str(file_name), "rb").read())
-        print b64String
+        self.b64String = b64String
         self.cleanup(file_name)
 
     def displayDNA(self, dna):
@@ -81,7 +82,7 @@ class ToonView(ShowBase):
 
     def cleanup(self, file_name):
         if file_name:
-            #os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
+            os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
             if self.toon:
                 self.toon.removeNode()
             self.destroy()

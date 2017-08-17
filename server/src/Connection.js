@@ -36,16 +36,21 @@ class Connection
         switch(req.method)
         {
             case 'POST':
-                var dnaString = String(req.body.dna);
-                var key = String(req.body.budge1415fatpackage)
 
-                if (dnaString)
+                console.log(req.body.b64)
+
+                if (String(req.body.b64) != undefined)
                 {
-                    if (key === Config.Server.SecretKey)
+                    console.log(req.body.b64);
+                }
+
+                if (String(req.body.dna) != undefined)
+                {
+                    if (req.body.budge1415fatpackage === Config.Server.SecretKey)
                     {
-                        this.handleDNA(dnaString);
+                        this.handleDNA(req.body.dna);
                         res.sendStatus(200);
-                        Logger.debug(`Got DNA string: ${dnaString}`);
+                        Logger.debug(`Got DNA string: ${req.body.dna}`);
                     }
                     else
                     {
