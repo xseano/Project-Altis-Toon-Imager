@@ -18,7 +18,7 @@ def craft_payload(payload):
     return payload
 
 def send_data(header, payload):
-    print payload
+    print (payload)
     ws.send(craft_header(header) + craft_payload(str(payload)))
 
 def get_header(data):
@@ -46,7 +46,7 @@ def on_message(ws, data):
     handle_packet(header, payload)
 
 def on_error(ws, error):
-    print error
+    print (error)
 
 def on_close(ws):
     print ("Disconnected from the server!")
@@ -57,7 +57,7 @@ def on_open(ws):
 
 def handle_packet(header, payload):
     if header == NetworkGlobals.RequestToonData:
-        print "The server is requesting toon data..."
+        print ("The server is requesting toon data...")
 
         str = payload[1:]
         dnaString = "t"
@@ -70,13 +70,13 @@ def handle_packet(header, payload):
         if Toon.b64String:
             sendToonData(Toon.b64String)
     else:
-        print "The server provided invalid or unknown header!"
+        print ("The server provided invalid or unknown header!")
 
 def sendToonData(b64String):
     url = "http://localhost:777"
-    payload = { "b64" : b64String, "budge1415fatpackage": NetworkGlobals.SecretKey }
+    b64 = str(b64String)
+    payload = { "b64" : b64, "budge1415fatpackage": NetworkGlobals.SecretKey }
     requests.post(url, json=payload)
-    print payload
 
 if __name__ == "__main__":
     ws = websocket.WebSocketApp("ws://127.0.0.1:777",

@@ -6,3 +6,10 @@
 
 # Resources:
 resources/
+
+# Caching
+*/Library/
+*/__pycache__/
+
+# Other
+*.DS_Store

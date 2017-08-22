@@ -107,7 +107,7 @@ class ToonActor(ToonHead):
         sleeves.setTexture(sleeveTex, 1)
         sleeves.setColor(sleeveColor)
         bottoms = thisPart.findAllMatches('**/torso-bot')
-        for bottomNum in xrange(0, bottoms.getNumPaths()):
+        for bottomNum in range(0, bottoms.getNumPaths()):
             bottom = bottoms.getPath(bottomNum)
             bottom.setTexture(bottomTex, 1)
             bottom.setColor(bottomColor)

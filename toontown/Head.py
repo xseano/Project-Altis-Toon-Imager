@@ -407,7 +407,7 @@ class ToonHead(Actor.Actor):
 
 
             if lp.isEmpty() or rp.isEmpty():
-                print 'Unable to locate pupils.'
+                print ('Unable to locate pupils.')
             else:
                 leye = self.__eyes.attachNewNode('leye')
                 reye = self.__eyes.attachNewNode('reye')
