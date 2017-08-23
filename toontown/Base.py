@@ -76,7 +76,7 @@ class ToonView(ShowBase):
         self.toon.loadDNA(dna)
         self.toon.buildToon()
         self.toon.reparentTo(self.render)
-        self.toon.setPos(0, 9, -2.1)
+        self.toon.setPos(0, 14, -3.4)
         self.toon.setHpr(-180, 0, 0)
         taskMgr.doMethodLater(0.1, self.takeScreenshot, 'screenshotTask')
 
