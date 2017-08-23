@@ -39,6 +39,7 @@ class Connection
 
     onRequest(req, res)
     {
+      console.log(req.method);
         switch(req.method)
         {
             case 'POST':
