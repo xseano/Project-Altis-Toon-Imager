@@ -1,4 +1,4 @@
-import websocket, time, sys, requests, json
+import websocket, time, sys, requests, json, base64
 import NetworkGlobals
 from Base import ToonView
 
@@ -59,14 +59,9 @@ def handle_packet(header, payload):
     if header == NetworkGlobals.RequestToonData:
         print ("The server is requesting toon data...")
 
-        str = payload[1:]
-        dnaString = "t"
-        for x in str.split("\\x"):
-            if x != '':
-                dnaString += chr(int(x, 16))
-
-        Toon = ToonView(dnaString)
+        Toon = ToonView(base64.b64decode(payload))
         Toon.run()
+
         if Toon.b64String:
             sendToonData(Toon.b64String)
     else:
@@ -75,7 +70,8 @@ def handle_packet(header, payload):
 def sendToonData(b64String):
     url = "http://localhost:777"
     b64 = str(b64String)
-    payload = { "b64" : b64, "budge1415fatpackage": NetworkGlobals.SecretKey }
+    b64e = b64[2:]
+    payload = { "b64" : b64e, "budge1415fatpackage": NetworkGlobals.SecretKey }
     requests.post(url, json=payload)
 
 if __name__ == "__main__":

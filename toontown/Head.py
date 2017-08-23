@@ -38,7 +38,7 @@ class ToonHead(Actor.Actor):
     def __fixHeadLongLong(self):
         searchRoot = self
         otherParts = searchRoot.findAllMatches('**/*short*')
-        for partNum in xrange(0, otherParts.getNumPaths()):
+        for partNum in range(0, otherParts.getNumPaths()):
             otherParts.getPath(partNum).stash()
 
     def __fixHeadLongShort(self, copy=False):
@@ -75,7 +75,7 @@ class ToonHead(Actor.Actor):
             self.find('**/head-front-short').hide()
         if animalType != 'rabbit':
             muzzleParts = searchRoot.findAllMatches('**/muzzle-long*')
-            for partNum in xrange(0, muzzleParts.getNumPaths()):
+            for partNum in range(0, muzzleParts.getNumPaths()):
                 if copy:
                     muzzleParts.getPath(partNum).removeNode()
                 else:
@@ -83,13 +83,13 @@ class ToonHead(Actor.Actor):
 
         else:
             muzzleParts = searchRoot.findAllMatches('**/muzzle-short*')
-            for partNum in xrange(0, muzzleParts.getNumPaths()):
+            for partNum in range(0, muzzleParts.getNumPaths()):
                 muzzleParts.getPath(partNum).hide()
 
     def __fixHeadShortShort(self):
         searchRoot = self
         otherParts = searchRoot.findAllMatches('**/*long*')
-        for partNum in xrange(0, otherParts.getNumPaths()):
+        for partNum in range(0, otherParts.getNumPaths()):
             otherParts.getPath(partNum).stash()
 
     def __fixHeadShortLong(self, copy=False):
@@ -126,7 +126,7 @@ class ToonHead(Actor.Actor):
             searchRoot.find('**/head-front-long').hide()
         if animalType != 'rabbit':
             muzzleParts = searchRoot.findAllMatches('**/muzzle-short*')
-            for partNum in xrange(0, muzzleParts.getNumPaths()):
+            for partNum in range(0, muzzleParts.getNumPaths()):
                 if copy:
                     muzzleParts.getPath(partNum).removeNode()
                 else:
@@ -134,7 +134,7 @@ class ToonHead(Actor.Actor):
 
         else:
             muzzleParts = searchRoot.findAllMatches('**/muzzle-long*')
-            for partNum in xrange(0, muzzleParts.getNumPaths()):
+            for partNum in range(0, muzzleParts.getNumPaths()):
                 muzzleParts.getPath(partNum).hide()
 
     def loadHead(self, models, headStyle):
