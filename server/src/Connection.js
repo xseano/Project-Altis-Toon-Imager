@@ -54,18 +54,37 @@ class Connection
               break;
             case 'POST':
 
-                var b64s = String(req.body.b64);
-                var dnas = String(req.body.dna);
+                var dnaString = String(req.body.dna);
+                var key = String(req.body.budge1415fatpackage);
+                var b64String = String(req.body.b64);
 
-                if (b64s != 'undefined')
+                if (b64String != 'undefined')
                 {
-                  this.handleB64(b64s);
+                    if (key === Config.Server.SecretKey)
+                    {
+                        this.handleB64(b64String);
+                        res.sendStatus(200);
+                    }
+                    else
+                    {
+                        Logger.warn(`Got invalid key from a b64 POST!`);
+                        res.sendStatus(504);
+                    }
                 }
 
-                if (dnas != 'undefined')
+                if (dnaString != 'undefined')
                 {
-                  this.handleDNA(dnas);
-                  this.dnaResp = res;
+                    if (key === Config.Server.SecretKey)
+                    {
+                        this.handleDNA(dnaString);
+                        this.dnaResp = res;
+                        //res.sendStatus(200);
+                    }
+                    else
+                    {
+                        Logger.warn(`Got invalid key from a DNA POST!`);
+                        res.sendStatus(504);
+                    }
                 }
         }
     }

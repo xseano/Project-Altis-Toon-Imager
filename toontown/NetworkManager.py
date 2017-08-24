@@ -68,10 +68,10 @@ def handle_packet(header, payload):
         print ("The server provided invalid or unknown header!")
 
 def sendToonData(b64String):
-    url = ("http://localhost:777/toonimage/%s" % (NetworkGlobals.SecretKey))
+    url = "http://localhost:777"
     b64 = str(b64String)
     b64e = b64[2:]
-    payload = { "b64" : b64e }
+    payload = { "b64" : b64e, "budge1415fatpackage": NetworkGlobals.SecretKey }
     requests.post(url, json=payload)
 
 if __name__ == "__main__":
