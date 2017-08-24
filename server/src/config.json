@@ -8,7 +8,7 @@
         "SecretKey": "lbChFkf0hgGyGE4ltKgElACjBfvot0CrhgxBu65fjgipC56sWGiOkAlX1RqQcmKKntY7D4dFEdazUDmTaVmrYCagmSWgLFEnnCVC",
         "WantDebug": true,
         "DevEnv": true,
-        "UWS": true,
+        "UWS": false,
         "Tick": 50
     },
 

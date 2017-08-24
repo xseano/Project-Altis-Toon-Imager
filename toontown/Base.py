@@ -6,7 +6,7 @@ import os, sys, base64, uuid, signal
 
 class ToonView(ShowBase):
     def __init__(self, dna):
-        loadPrcFileData('', "aux-display tinydisplay")
+        loadPrcFileData('', "aux-display p3tinydisplay")
         ShowBase.__init__(self)
         self.Preloaded = {}
         self.LegsAnimDict = {}
@@ -87,4 +87,4 @@ class ToonView(ShowBase):
                 self.toon.removeNode()
             self.destroy()
             pid = os.getpid()
-            os.kill(pid, signal.SIGINT)
+            os.kill(signal.CTRL_C_EVENT, 0)
