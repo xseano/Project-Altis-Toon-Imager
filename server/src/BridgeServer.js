@@ -116,19 +116,19 @@ class BridgeServer
         if (this.ipQuery(connectionIP) < this.maxConn)
         {
             var id = this.getNextID();
-            var conn = new Connection(id, socket, this);
-            conn.ip = connectionIP;
+            this.conn = new Connection(id, socket, this);
+            this.conn.ip = connectionIP;
             var self = this;
 
             this.onClose = () =>
             {
-                if (this.clients.indexOf(conn) > -1)
+                if (this.clients.indexOf(this.conn) > -1)
                 {
-                    this.clients.splice(this.clients.indexOf(conn), 1);
+                    this.clients.splice(this.clients.indexOf(this.conn), 1);
                     socket.close();
                 }
 
-                if (conn.packetHandler.unm)
+                if (this.conn.packetHandler.unm)
                 {
                     Logger.warn(`${conn.packetHandler.unm} has successfully been disconnected!`);
                 }
@@ -138,18 +138,18 @@ class BridgeServer
                 }
             }
 
-            socket.on('message', conn.onMessage.bind(conn));
+            socket.on('message', this.conn.onMessage.bind(this.conn));
             socket.on('close', this.onClose);
             socket.on('error', this.onError);
 
-            conn.onOpen();
-            this.clients.push(conn);
+            this.conn.onOpen();
+            this.clients.push(this.conn);
 
             this.app.all('*', (req, res) =>
                 {
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Content-type');
-                  conn.onRequest(req, res);
+                  self.conn.onRequest(req, res);
                 }
             );
         }
