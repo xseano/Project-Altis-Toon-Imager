@@ -37,12 +37,12 @@ class Connection
         this.packetHandler.reqToonData(dna);
     }
 
-    onDNARequest(req, res)
+    onRequest(req, res)
     {
         switch(req.method)
         {
             case 'OPTIONS':
-
+              console.log('!OPTIONS');
               var headers = {};
               headers["Access-Control-Allow-Origin"] = "*";
               headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
@@ -52,53 +52,21 @@ class Connection
               res.writeHead(200, headers);
               res.end();
               break;
-
             case 'POST':
 
-              var dnas = String(req.body.dna);
+                var b64s = String(req.body.b64);
+                var dnas = String(req.body.dna);
 
-              if (dnas != 'undefined')
-              {
-                this.handleDNA(dnas);
-                this.dnaResp = res;
-              }
+                if (b64s != 'undefined')
+                {
+                  this.handleB64(b64s);
+                }
 
-              break;
-
-            default:
-              break;
-        }
-    }
-
-    onB64Request(req, res)
-    {
-        switch(req.method)
-        {
-            case 'OPTIONS':
-
-              var headers = {};
-              headers["Access-Control-Allow-Origin"] = "*";
-              headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
-              headers["Access-Control-Allow-Credentials"] = false;
-              headers["Access-Control-Max-Age"] = '86400'; // 24 hours
-              headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
-              res.writeHead(200, headers);
-              res.end();
-              break;
-
-            case 'POST':
-
-              var b64s = String(req.body.b64);
-
-              if (b64s != 'undefined')
-              {
-                this.handleB64(b64s);
-              }
-
-              break;
-
-            default:
-              break;
+                if (dnas != 'undefined')
+                {
+                  this.handleDNA(dnas);
+                  this.dnaResp = res;
+                }
         }
     }
 
