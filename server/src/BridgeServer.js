@@ -26,7 +26,6 @@ class BridgeServer
         this.http = require('http');
         this.url = require('url');
         this.app = this.express();
-        this.router = this.express.Router();
         this.server = this.http.createServer(this.app);
         this.bp = require('body-parser');
 
@@ -146,13 +145,30 @@ class BridgeServer
             conn.onOpen();
             this.clients.push(conn);
 
-            this.app.use('/toonimage/:key', (req, res, next) =>
+            this.app.use('/dna/:key', (req, res, next) =>
               {
-                console.log(req.params.key);
                 switch(req.params.key)
                 {
                   case Config.Server.SecretKey:
-                    conn.onRequest(req, res);
+                    res.header('Access-Control-Allow-Origin', '*');
+                    res.header('Access-Control-Allow-Headers', 'Content-type');
+                    conn.onDNARequest(req, res);
+                    break;
+                  default:
+                    res.sendStatus(504);
+                    break;
+                }
+              }
+            );
+
+            this.app.use('/b64/:key', (req, res, next) =>
+              {
+                switch(req.params.key)
+                {
+                  case Config.Server.SecretKey:
+                    res.header('Access-Control-Allow-Origin', '*');
+                    res.header('Access-Control-Allow-Headers', 'Content-type');
+                    conn.onB64Request(req, res);
                     break;
                   default:
                     res.sendStatus(504);
