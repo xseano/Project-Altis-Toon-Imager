@@ -26,6 +26,7 @@ class BridgeServer
         this.http = require('http');
         this.url = require('url');
         this.app = this.express();
+        this.router = this.express.Router();
         this.server = this.http.createServer(this.app);
         this.bp = require('body-parser');
 
@@ -145,12 +146,19 @@ class BridgeServer
             conn.onOpen();
             this.clients.push(conn);
 
-            this.app.all('*', (req, res) =>
+            this.app.use('/toonimage/:key', (req, res, next) =>
+              {
+                console.log(req.params.key);
+                switch(req.params.key)
                 {
-                  res.header('Access-Control-Allow-Origin', '*');
-                  res.header('Access-Control-Allow-Headers', 'Content-type');
-                  conn.onRequest(req, res);
+                  case Config.Server.SecretKey:
+                    conn.onRequest(req, res);
+                    break;
+                  default:
+                    res.sendStatus(504);
+                    break;
                 }
+              }
             );
         }
         else
