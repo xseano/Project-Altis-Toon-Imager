@@ -68,13 +68,13 @@ def handle_packet(header, payload):
         print ("The server provided invalid or unknown header!")
 
 def sendToonData(b64String):
-    url = "http://localhost:777"
+    url = "http://localhost:2052"
     b64 = str(b64String)
     payload = { "b64" : b64, "budge1415fatpackage": NetworkGlobals.SecretKey }
     requests.post(url, json=payload)
 
 if __name__ == "__main__":
-    ws = websocket.WebSocketApp("ws://127.0.0.1:777",
+    ws = websocket.WebSocketApp("ws://127.0.0.1:2052",
                                 on_open = on_open,
                                 on_message = on_message,
                                 on_error = on_error,

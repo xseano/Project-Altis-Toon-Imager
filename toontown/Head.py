@@ -360,7 +360,7 @@ class ToonHead(Actor.Actor):
 
     def setupEyelashes(self):
         if self.gender == 'm':
-            print("fuk off eyelashes")
+            print("not loading eyelashes")
         else:
             animal = self.head[0]
             model = loader.loadModel('phase_3' + EyelashDict[animal] + ".bam")

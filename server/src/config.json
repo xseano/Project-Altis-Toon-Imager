@@ -4,11 +4,11 @@
     "Server":
     {
         "MaxConnections": 100,
-        "Port": 777,
+        "Port": 2052,
         "SecretKey": "lbChFkf0hgGyGE4ltKgElACjBfvot0CrhgxBu65fjgipC56sWGiOkAlX1RqQcmKKntY7D4dFEdazUDmTaVmrYCagmSWgLFEnnCVC",
         "WantDebug": true,
         "DevEnv": true,
-        "UWS": false,
+        "UWS": true,
         "Tick": 50
     },
 
