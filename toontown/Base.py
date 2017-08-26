@@ -6,7 +6,7 @@ import os, sys, base64, uuid, signal
 
 class ToonView(ShowBase):
     def __init__(self, dna):
-        loadPrcFileData('', "aux-display p3tinydisplay")
+        loadPrcFileData('', "aux-display pandagl")
         ShowBase.__init__(self)
         self.Preloaded = {}
         self.LegsAnimDict = {}
