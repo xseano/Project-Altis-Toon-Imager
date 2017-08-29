@@ -5,17 +5,29 @@ from panda3d.core import *
 import os, sys, base64, uuid, signal
 
 class ToonView(ShowBase):
-    def __init__(self, dna):
-        loadPrcFileData('', "aux-display tinydisplay")
-        ShowBase.__init__(self)
+    def __init__(self):
         self.Preloaded = {}
         self.LegsAnimDict = {}
         self.TorsoAnimDict = {}
         self.HeadAnimDict = {}
 
         self.b64String = ""
+        #self.sb.run()
+        #self.sb.run()
+
+    def s(self, dna):
+        loadPrcFileData('', "aux-display tinydisplay")
+        self.sb = ShowBase()
+        #self.sb.run()
+        #self.sb.run()
         self.loadModels()
+        #self.sb.run()
         self.displayDNA(dna)
+        self.sb.run()
+
+        #self.sb.destroy()
+        #self.sb.restart()
+
 
     def loadAnimations(self):
         phaseList = [Phase3AnimList,
@@ -66,7 +78,7 @@ class ToonView(ShowBase):
 
     def takeScreenshot(self, task):
         file_name = Filename(str(uuid.uuid4()) + ".png")
-        self.win.saveScreenshot(file_name)
+        self.sb.win.saveScreenshot(file_name)
         b64String = base64.b64encode(open(str(file_name), "rb").read())
         self.b64String = b64String
         self.cleanup(file_name)
@@ -75,7 +87,7 @@ class ToonView(ShowBase):
         self.toon = ToonActor(self.Preloaded, self.LegsAnimDict, self.TorsoAnimDict, self.HeadAnimDict)
         self.toon.loadDNA(dna)
         self.toon.buildToon()
-        self.toon.reparentTo(self.render)
+        self.toon.reparentTo(self.sb.render)
         self.toon.setPos(0, 14, -3.4)
         self.toon.setHpr(-180, 0, 0)
         taskMgr.doMethodLater(0.1, self.takeScreenshot, 'screenshotTask')
@@ -85,6 +97,6 @@ class ToonView(ShowBase):
             os.remove(('%s/%s' % (os.getcwd(), str(file_name))))
             if self.toon:
                 self.toon.removeNode()
-            self.destroy()
-            pid = os.getpid()
-            os.kill(pid, signal.SIGINT)
+            self.sb.shutdown()
+            #pid = os.getpid()
+            #os.kill(pid, signal.SIGINT)

@@ -23,6 +23,7 @@ class Connection
     onOpen()
     {
         Logger.debug(`New connection open from address: ${this.ip}`);
+        //this.packetHandler.ping();
     }
 
     handleB64(b64String)
