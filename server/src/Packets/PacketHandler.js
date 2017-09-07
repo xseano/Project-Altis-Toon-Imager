@@ -43,15 +43,10 @@ class PacketHandler
         return payload.replace(/\u0000/g, '');
     }
 
-    ping()
-    {
-      this.sendPacket('dCUCAgEAGwIbEBtxcXFxcXHhP1FRUVFRUdE/ExMTExMTsz8AAAAAAADwPwAAAAAAAPA/AAAAAAAA8D9xcXFxcXHhP1FRUVFRUdE/ExMTExMTsz9xcXFxcXHhP1FRUVFRUdE/ExMTExMTsz8=');
-    }
-
     /* Requests Toon Data */
     reqToonData(dnaString)
     {
-        this.sendPacket(dnaString);
+        this.sendPacket(new PacketWriter(this.packetGlobals.RequestToonData, dnaString).toString());
     }
 
     /*
@@ -61,6 +56,12 @@ class PacketHandler
     {
         if (this.socket && this.socket.readyState == 1)
         {
+            if (this.bridgeServer.wantDebug === true)
+            {
+                var pac = new PacketReader(packet);
+                Logger.debug(`Sending back: ${pac.header}`)
+                Logger.debug(`Payload: ${pac.payload}`)
+            }
             this.socket.send(packet);
         }
     }
