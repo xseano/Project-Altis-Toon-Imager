@@ -1,3 +1,5 @@
+**This project contains serious bugs, vulnerabilities or other exploits. It is not intended for production use.**
+
 # Toon Imager
 - This project provides the core system and middleware used by the webserver to request, generate, and recieve back an image of toon based on their DNA string.
 
